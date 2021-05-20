@@ -25,4 +25,8 @@ export class AppComponent {
       { title: 'Item 4', children: [] },
     ],
   };
+
+  save() {
+    console.log(this.rootItem);
+  }
 }

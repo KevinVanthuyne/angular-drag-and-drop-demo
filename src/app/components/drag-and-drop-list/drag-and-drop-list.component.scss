@@ -7,37 +7,14 @@
   background-color: lightgray;
 }
 
-.item-title {
-  //padding: 0.5em;
-}
-
-.child {
-  //padding: 8px;
-  //border: 1px dotted black;
-}
-
-.children-container {
-  height: 20px;
-  border: 1px dotted black;
-
-}
-
-.child-dnd-list {
-  //padding: 0.5em;
-  //border: 1px dotted black;
-  //min-height: 20px;
-  //width: 100px;
-}
-
 // Style applied to element that is dragged by the cursor
 .cdk-drag-preview {
+  margin-top: 0.5em;
   box-sizing: border-box;
   border-radius: 4px;
-  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
-  0 8px 10px 1px rgba(0, 0, 0, 0.14),
-  0 3px 14px 2px rgba(0, 0, 0, 0.12);
-  background-color: cornflowerblue;
-  list-style: none;
+  opacity: 0.5;
+  //box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+  //  0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12);
 }
 
 // Style applied to preview element underneath the dragging cursor
