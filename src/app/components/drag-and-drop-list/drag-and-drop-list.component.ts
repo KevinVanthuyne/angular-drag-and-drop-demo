@@ -20,10 +20,6 @@ export class DragAndDropListComponent implements AfterViewInit {
   @Input() listItem?: ListItem;
   @ViewChild(CdkDropList) dropList?: CdkDropList;
 
-  allowDropPredicate = (drag: CdkDrag, drop: CdkDropList) => {
-    return this.isDropAllowed(drag, drop);
-  };
-
   constructor(private dndService: DragDropService<ListItem>) {}
 
   get connectedDropLists(): CdkDropList<ListItem>[] {
@@ -53,14 +49,6 @@ export class DragAndDropListComponent implements AfterViewInit {
         event.currentIndex
       );
     }
-  }
-
-  isDropAllowed(drag: CdkDrag, drop: CdkDropList) {
-    if (this.dndService.currentHoverDropListId == null) {
-      return true;
-    }
-
-    return drop.id === this.dndService.currentHoverDropListId;
   }
 
   dragMoved(event: CdkDragMove<ListItem>) {
