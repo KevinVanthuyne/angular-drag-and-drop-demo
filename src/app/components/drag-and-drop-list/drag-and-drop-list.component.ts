@@ -1,73 +1,36 @@
-import { AfterViewInit, Component, Input, ViewChild } from '@angular/core';
-import {
-  CdkDrag,
-  CdkDragDrop,
-  CdkDragMove,
-  CdkDragRelease,
-  CdkDropList,
-  moveItemInArray,
-  transferArrayItem,
-} from '@angular/cdk/drag-drop';
+import { Component } from '@angular/core';
 import { ListItem } from '../../models/list-item';
-import { DragDropService } from '../../services/drag-drop.service';
 
 @Component({
   selector: 'app-drag-and-drop-list',
   templateUrl: './drag-and-drop-list.component.html',
   styleUrls: ['./drag-and-drop-list.component.scss'],
 })
-export class DragAndDropListComponent implements AfterViewInit {
-  @Input() listItem?: ListItem;
-  @ViewChild(CdkDropList) dropList?: CdkDropList;
-
-  allowDropPredicate = (drag: CdkDrag, drop: CdkDropList) => {
-    return this.isDropAllowed(drag, drop);
+export class DragAndDropListComponent {
+  rootItem: ListItem = {
+    title: 'Root item',
+    children: [
+      { title: 'Item 1', children: [] },
+      {
+        title: 'Item 2',
+        children: [
+          { title: 'Item 2.1', children: [] },
+          { title: 'Item 2.2', children: [] },
+          { title: 'Item 2.3', children: [] },
+        ],
+      },
+      { title: 'Item 3', children: [] },
+      { title: 'Item 4', children: [] },
+    ],
   };
 
-  constructor(private dndService: DragDropService<ListItem>) {}
+  availableItems: ListItem[] = [
+    { title: 'Item X', children: [] },
+    { title: 'Item Y', children: [] },
+    { title: 'Item Z', children: [] },
+  ];
 
-  get connectedDropLists(): CdkDropList<ListItem>[] {
-    return this.dndService.dropLists;
-  }
-
-  ngAfterViewInit(): void {
-    if (this.dropList) {
-      this.dndService.register(this.dropList);
-    }
-  }
-
-  dropped(event: CdkDragDrop<ListItem[]>) {
-    console.log('dropped', event);
-
-    if (event.previousContainer === event.container) {
-      moveItemInArray(
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex
-      );
-    } else {
-      transferArrayItem(
-        event.previousContainer.data,
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex
-      );
-    }
-  }
-
-  isDropAllowed(drag: CdkDrag, drop: CdkDropList) {
-    if (this.dndService.currentHoverDropListId == null) {
-      return true;
-    }
-
-    return drop.id === this.dndService.currentHoverDropListId;
-  }
-
-  dragMoved(event: CdkDragMove<ListItem>) {
-    this.dndService.dragMoved(event);
-  }
-
-  dragReleased(event: CdkDragRelease) {
-    this.dndService.dragReleased(event);
+  save() {
+    console.log(this.rootItem);
   }
 }
