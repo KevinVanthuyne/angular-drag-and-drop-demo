@@ -1,15 +1,32 @@
-ul {
-  list-style: none;
-  padding: 0;
-}
-
-li {
+.item {
   cursor: pointer;
   border: 1px solid black;
   border-radius: 3px;
-  padding: 0.5em;
-  margin-bottom: 0.5em;
+  padding: 1em;
+  margin: 1em 0;
   background-color: lightgray;
+}
+
+.item-title {
+  //padding: 0.5em;
+}
+
+.child {
+  //padding: 8px;
+  //border: 1px dotted black;
+}
+
+.children-container {
+  height: 20px;
+  border: 1px dotted black;
+
+}
+
+.child-dnd-list {
+  //padding: 0.5em;
+  //border: 1px dotted black;
+  //min-height: 20px;
+  //width: 100px;
 }
 
 // Style applied to element that is dragged by the cursor

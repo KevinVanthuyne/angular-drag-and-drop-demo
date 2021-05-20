@@ -1,19 +1,44 @@
-import { Component } from '@angular/core';
+import { AfterViewInit, Component, Input, ViewChild } from '@angular/core';
 import {
+  CdkDrag,
   CdkDragDrop,
+  CdkDragMove,
+  CdkDragRelease,
+  CdkDropList,
   moveItemInArray,
   transferArrayItem,
 } from '@angular/cdk/drag-drop';
+import { ListItem } from '../../models/list-item';
+import { DragDropService } from '../../services/drag-drop.service';
 
 @Component({
   selector: 'app-drag-and-drop-list',
   templateUrl: './drag-and-drop-list.component.html',
   styleUrls: ['./drag-and-drop-list.component.scss'],
 })
-export class DragAndDropListComponent {
-  list = ['item 1', 'item 2', 'item 3', 'item 4'];
+export class DragAndDropListComponent implements AfterViewInit {
+  @Input() listItem?: ListItem;
+  @ViewChild(CdkDropList) dropList?: CdkDropList;
 
-  drop(event: CdkDragDrop<string[]>) {
+  allowDropPredicate = (drag: CdkDrag, drop: CdkDropList) => {
+    return this.isDropAllowed(drag, drop);
+  };
+
+  constructor(private dndService: DragDropService<ListItem>) {}
+
+  get connectedDropLists(): CdkDropList<ListItem>[] {
+    return this.dndService.dropLists;
+  }
+
+  ngAfterViewInit(): void {
+    if (this.dropList) {
+      this.dndService.register(this.dropList);
+    }
+  }
+
+  dropped(event: CdkDragDrop<ListItem[]>) {
+    console.log('dropped', event);
+
     if (event.previousContainer === event.container) {
       moveItemInArray(
         event.container.data,
@@ -28,5 +53,21 @@ export class DragAndDropListComponent {
         event.currentIndex
       );
     }
+  }
+
+  isDropAllowed(drag: CdkDrag, drop: CdkDropList) {
+    if (this.dndService.currentHoverDropListId == null) {
+      return true;
+    }
+
+    return drop.id === this.dndService.currentHoverDropListId;
+  }
+
+  dragMoved(event: CdkDragMove<ListItem>) {
+    this.dndService.dragMoved(event);
+  }
+
+  dragReleased(event: CdkDragRelease) {
+    this.dndService.dragReleased(event);
   }
 }

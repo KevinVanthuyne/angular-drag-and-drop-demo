@@ -1,6 +1,26 @@
-<ul
+<div
+  *ngIf="listItem"
   cdkDropList
-  [cdkDropListData]="list"
-  (cdkDropListDropped)="drop($event)">
-  <li *ngFor="let item of list" cdkDrag>{{item}}</li>
-</ul>
+  [cdkDropListData]="listItem.children"
+  [cdkDropListConnectedTo]="connectedDropLists"
+  [cdkDropListEnterPredicate]="allowDropPredicate"
+  (cdkDropListDropped)="dropped($event)"
+  class="item"
+>
+  <div class="item-title">
+    {{ listItem.title }}
+  </div>
+  <div
+    *ngFor="let child of listItem.children"
+    cdkDrag
+    [cdkDragData]="child"
+    (cdkDragMoved)="dragMoved($event)"
+    (cdkDragReleased)="dragReleased($event)"
+    class="child"
+  >
+    <app-drag-and-drop-list
+      [listItem]="child"
+      class="child-dnd-list"
+    ></app-drag-and-drop-list>
+  </div>
+</div>
