@@ -1,10 +1,4 @@
-import {
-  AfterViewInit,
-  Component,
-  Input,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { AfterViewInit, Component, Input, ViewChild } from '@angular/core';
 import { ListItem } from '../../models/list-item';
 import {
   CdkDrag,
@@ -12,10 +6,12 @@ import {
   CdkDragMove,
   CdkDragRelease,
   CdkDropList,
+  copyArrayItem,
   moveItemInArray,
   transferArrayItem,
 } from '@angular/cdk/drag-drop';
 import { DragDropService } from '../../services/drag-drop.service';
+import { AVAILABLE_ITEMS_ID } from '../drag-and-drop-list/drag-and-drop-list.component';
 
 @Component({
   selector: 'app-list-item',
@@ -43,21 +39,32 @@ export class ListItemComponent implements AfterViewInit {
   }
 
   dropped(event: CdkDragDrop<ListItem[]>) {
-    console.log('dropped', event);
+    console.log('list item dropped', event);
 
     if (event.previousContainer === event.container) {
+      console.log('move item');
       moveItemInArray(
         event.container.data,
         event.previousIndex,
         event.currentIndex
       );
     } else {
-      transferArrayItem(
-        event.previousContainer.data,
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex
-      );
+      console.log('transfer item');
+      if (event.previousContainer.id === AVAILABLE_ITEMS_ID) {
+        copyArrayItem(
+          event.previousContainer.data,
+          event.container.data,
+          event.previousIndex,
+          event.currentIndex
+        );
+      } else {
+        transferArrayItem(
+          event.previousContainer.data,
+          event.container.data,
+          event.previousIndex,
+          event.currentIndex
+        );
+      }
     }
   }
 

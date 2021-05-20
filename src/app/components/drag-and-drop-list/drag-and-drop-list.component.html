@@ -1,3 +1,22 @@
-<app-list-item [listItem]="rootItem"></app-list-item>
+<div class="container">
+  <div class="sub-container">
+    <h2>Available items</h2>
+    <div
+      [id]="availableItemsId"
+      cdkDropList
+      [cdkDropListData]="availableItems"
+      [cdkDropListConnectedTo]="connectedDropLists"
+    >
+      <div *ngFor="let item of availableItems" cdkDrag class="available-item">
+        {{ item.title }}
+      </div>
+    </div>
+  </div>
 
-<button (click)="save()">Save list</button>
+  <div class="sub-container">
+    <h2>Configuration</h2>
+    <app-list-item [listItem]="rootItem"></app-list-item>
+
+    <button (click)="save()">Save list</button>
+  </div>
+</div>

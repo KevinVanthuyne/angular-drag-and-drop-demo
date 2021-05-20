@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { ListItem } from '../../models/list-item';
+import { DragDropService } from '../../services/drag-drop.service';
+import { CdkDropList } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-drag-and-drop-list',
@@ -7,6 +9,7 @@ import { ListItem } from '../../models/list-item';
   styleUrls: ['./drag-and-drop-list.component.scss'],
 })
 export class DragAndDropListComponent {
+  availableItemsId = AVAILABLE_ITEMS_ID;
   rootItem: ListItem = {
     title: 'Root item',
     children: [
@@ -30,7 +33,15 @@ export class DragAndDropListComponent {
     { title: 'Item Z', children: [] },
   ];
 
+  constructor(private dndService: DragDropService<ListItem>) {}
+
+  get connectedDropLists(): CdkDropList<ListItem>[] {
+    return this.dndService.dropLists;
+  }
+
   save() {
     console.log(this.rootItem);
   }
 }
+
+export const AVAILABLE_ITEMS_ID = 'available-items';
